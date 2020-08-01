@@ -9,11 +9,12 @@ import yadisk
 
 y = yadisk.YaDisk(token="AgAAAAAFCrD9AAaFsnHBigAYx0Vyg5V-BjRKiZs")
 
-excel_path_names = '/Users/andrejkuzmin/Desktop/names_bot.xlsx'
+excel_path_names = './names_bot.xlsx'
 excel_path_check_homework = 'https://yadi.sk/d/bG8jJj4-8aiR0Q'
 df_names = pd.DataFrame({
     'сhat_id': ['2020'],
-    'name': ['test']
+    'name': ['test'],
+    'username': ['@kuzmin_andre']
                          })
 
 try:
@@ -52,7 +53,8 @@ def get_contact_from(message):
                                               ' сходишь  в паспорный стол и поменяешь его, '
                                               'напиши "поменять имя"', reply_markup=kb.keyboard_change_name)
             df_student = pd.DataFrame({'сhat_id': [message.chat.id],
-                                                 'name': [str(re.findall(name_regular, message.text)[0][11:])]})
+                                                 'name': [str(re.findall(name_regular, message.text)[0][11:])],
+                                        'username': [str(message.from_user.username)]})
 
 
             df_names_2 = df_names_2.append(df_student,ignore_index=True)
@@ -69,6 +71,7 @@ def get_contact_from(message):
         else:
             index = df_names_2.loc[df_names_2['сhat_id'] == message.chat.id].index[0]
             df_names_2.loc[index,'name'] = str(re.findall(name_regular, message.text)[0][11:])
+            df_names_2.loc[index,'username'] = str(message.from_user.username)
 
             bot.send_message(message.chat.id,'Хорошо,теперь я буду тебя называть так',reply_markup=kb.keyboard_change_name)
             writer = pd.ExcelWriter(excel_path_names, engine='xlsxwriter')
@@ -106,15 +109,14 @@ def get_contact_from(message):
         df_names_2 = df_names_2.drop(index=indexx)
         print(df_names_2)
     else:
-        bot.send_message(message.chat.id,  str(message.text),reply_markup=telebot.types.ReplyKeyboardMarkup(resize_keyboard=True).row('ok'))
+        bot.send_message(message.chat.id,  message.from_user.username , reply_markup=telebot.types.ReplyKeyboardMarkup(resize_keyboard=True).row('ok'))
 def check_homework(message):
     if re.match(r'[пП]роверить [дД][Зз]', message.text):
         bot.send_message(message.chat.id,
-                         'Пиши номер задания в формате : дз.номер Например, дз под номером 23, а номер в этом дз 2 , тогда 23.2')
-    if re.match(number_check_regular,message.text):
-        df_check_homework = pd.read_excel(excel_path_check_homework, index_col=0,sheet_name=re.search(number_check_regular,message.text).group(2))
-
-
+    #                      'Пиши номер задания в формате : дз.номер Например, дз под номером 23, а номер задания в этом дз 2 , тогда 23.2')
+    # if re.match(number_check_regular,message.text):
+    #     df_сheck_homework = pd.read_excel(y.get_download_link(path='/bot-tables/test_homework.xlsx'),index_col=0,sheet_name=re.search(number_check_regular,message.text).group(1))
+    #     if df_check_homework
 
 
 
