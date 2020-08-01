@@ -5,7 +5,7 @@ import keyboards as kb
 import messages as msg
 import pandas as pd
 import yadisk
-
+import xlrd
 
 y = yadisk.YaDisk(token="AgAAAAAFCrD9AAaFsnHBigAYx0Vyg5V-BjRKiZs")
 
