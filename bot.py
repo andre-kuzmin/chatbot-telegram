@@ -113,10 +113,9 @@ def get_contact_from(message):
 def check_homework(message):
     if re.match(r'[пП]роверить [дД][Зз]', message.text):
         bot.send_message(message.chat.id,
-    #                      'Пиши номер задания в формате : дз.номер Например, дз под номером 23, а номер задания в этом дз 2 , тогда 23.2')
-    # if re.match(number_check_regular,message.text):
-    #     df_сheck_homework = pd.read_excel(y.get_download_link(path='/bot-tables/test_homework.xlsx'),index_col=0,sheet_name=re.search(number_check_regular,message.text).group(1))
-    #     if df_check_homework
+                         'Пиши номер задания в формате : дз.номер Например, дз под номером 23, а номер задания в этом дз 2 , тогда 23.2')
+    if re.match(number_check_regular,message.text):
+        df_сheck_homework = pd.read_excel(y.get_download_link(path='/bot-tables/test_homework.xlsx'),index_col=0,sheet_name=re.search(number_check_regular,message.text).group(1))
 
 
 
