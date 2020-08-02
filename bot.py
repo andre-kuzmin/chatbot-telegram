@@ -34,6 +34,7 @@ name_student = ''
 def start_message(message):
     bot.send_message(message.chat.id,msg.start_message_student, reply_markup=kb.keyboard_start)
 
+@bot.message_handler(content_types=['text'])
 
 def get_contact_from(message):
     global df_names_2
