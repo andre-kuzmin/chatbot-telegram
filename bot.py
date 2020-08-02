@@ -7,6 +7,7 @@ import pandas as pd
 import yadisk
 import xlrd
 
+
 y = yadisk.YaDisk(token="AgAAAAAFCrD9AAaFsnHBigAYx0Vyg5V-BjRKiZs")
 
 excel_path_names = './names_bot.xlsx'
@@ -27,13 +28,13 @@ df_names_2 = pd.read_excel(excel_path_names,index_col=0)
 print(df_names_2)
 bot = telebot.TeleBot('1142583846:AAH23gGM09Kh8HeonxFq6VYAxCRw5xVAqmM')
 name_regular = r'[мМ]еня [зЗ]овут .*'
-number_check_regular = r'(\d+)\.(\d+)'
+number_check_regular = r'(\d+)\.(\d+)\) (.+)'
 name_student = ''
 @bot.message_handler(commands=['start'])
 def start_message(message):
     bot.send_message(message.chat.id,msg.start_message_student, reply_markup=kb.keyboard_start)
 
-@bot.message_handler(content_types=['text'])
+
 def get_contact_from(message):
     global df_names_2
     if message.text == 'Хорошо':
@@ -95,27 +96,38 @@ def get_contact_from(message):
         sleep(2)
         bot.send_message(message.chat.id, str(msg.after_register_text_2), reply_markup=kb.keyboard_after_register)
     elif message.text == 'Так точно, капитан!':
-        bot.send_message(message.chat.id, 'Удачи в обучении, по всем техническим вопросам писать ему',reply_markup=kb.keyboard_tech_help)
-
+        bot.send_message(message.chat.id, 'Удачи в обучении,если что-то непонятно по техническим вопросам пишите "\help"',reply_markup=kb.keyboard_home_menu)
+        bot.register_next_step_handler(message, checking_homework)
     elif message.text == 'Что, собственно говоря, происходит?':
-        bot.send_message(message.chat.id, 'Задай интересующий и непонятный для тебя вопрос ему.'
-                                           ' Удачи в обучении!')
+        bot.send_message(message.chat.id, 'Если что-то непонятно, в клавиатуре выбери "\help" или напиши вручную'
+                                          'Удачи в обучении!',reply_markup=kb.keyboard_home_menu)
+        bot.register_next_step_handler(message, checking_homework)
     elif message.text == 'как меня зовут?':
         bot.send_message(message.chat.id, df_names[df_names['сhat_id'] == message.chat.id]['name'])
     elif message.text == 'тест':
         bot.send_message(message.chat.id, message.chat.id)
+        bot.register_next_step_handler(message,checking_homework)
     elif message.text == 'делит':
         indexx = df_names_2.loc[df_names_2['сhat_id'] == message.chat.id].index[0]
         df_names_2 = df_names_2.drop(index=indexx)
         print(df_names_2)
+    elif message.text == 'привет':
+        bot.send_message(message.chat.id,'привет Андрей')
     else:
-        bot.send_message(message.chat.id,  message.from_user.username , reply_markup=telebot.types.ReplyKeyboardMarkup(resize_keyboard=True).row('ok'))
-def check_homework(message):
+        bot.register_next_step_handler(message, checking_homework(message))
+        bot.clear_step_handler(message)
+
+
+def checking_homework(message):
     if re.match(r'[пП]роверить [дД][Зз]', message.text):
         bot.send_message(message.chat.id,
-                         'Пиши номер задания в формате : дз.номер Например, дз под номером 23, а номер задания в этом дз 2 , тогда 23.2')
-    if re.match(number_check_regular,message.text):
+                         'Пиши номер задания в формате : дз.номер) а затем ответ Например, дз под номером 23, а номер задания в этом дз 2 ,ответ 4 , тогда "23.2) 4"')
+    elif re.match(number_check_regular,message.text):
         df_сheck_homework = pd.read_excel(y.get_download_link(path='/bot-tables/test_homework.xlsx'),index_col=0,sheet_name=re.search(number_check_regular,message.text).group(1))
+        if df_сheck_homework.loc[int(re.search(number_check_regular, message.text).group(2)), 'Ответ'] == str(re.search(number_check_regular,message.text).group(3)):
+            bot.send_message(message.chat.id,'задание верное')
+        else:
+            bot.send_message(message.chat.id, 'задание неверное( Попробуй еще раз, или можешь получить подсказку')
 
 
 

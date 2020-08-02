@@ -22,7 +22,7 @@ test_but_2 = telebot.types.KeyboardButton('test2')
 keyboard_home_menu = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
 keyboard_home_menu.add('проверить дз')
 keyboard_home_menu.add('задать вопрос по предмету')
-keyboard_home_menu.add('написать в поддержку')
+keyboard_home_menu.add('\help')
 keyboard_home_menu.add('посмотреть свои оценки')
 keyboard_tech_help = telebot.types.InlineKeyboardMarkup().add(telebot.types.InlineKeyboardButton('ссылка на тех поддержку',url='https://t.me/kuzmin_andre'))
 

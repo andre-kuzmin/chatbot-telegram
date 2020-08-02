@@ -31,4 +31,5 @@
 # df.to_excel(writer)
 # writer.save()
 # y.upload(path_or_file=, dst_path='/bot-tables')
-#
+#внизу ссылка на username
+#message.from_user.username
