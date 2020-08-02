@@ -127,6 +127,8 @@ def checking_homework(message):
         df_сheck_homework = pd.read_excel(y.get_download_link(path='/bot-tables/test_homework.xlsx'),index_col=0,sheet_name=re.search(number_check_regular,message.text).group(1))
         if df_сheck_homework.loc[int(re.search(number_check_regular, message.text).group(2)), 'Ответ'] == str(re.search(number_check_regular,message.text).group(3)):
             bot.send_message(message.chat.id,'задание верное')
+            bot.send_message(message.chat.id,df_names_2.loc[df_names_2.loc[df_names_2['сhat_id'] == message.chat.id].index[0],'name'])
+
         else:
             bot.send_message(message.chat.id, 'задание неверное( Попробуй еще раз, или можешь получить подсказку')
 
