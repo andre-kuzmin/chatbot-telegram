@@ -124,12 +124,13 @@ def checking_homework(message):
         bot.send_message(message.chat.id,
                          'Пиши номер задания в формате : дз.номер) а затем ответ Например, дз под номером 23, а номер задания в этом дз 2 ,ответ 4 , тогда "23.2) 4"')
     elif re.match(number_check_regular,message.text):
-        df_сheck_homework = pd.read_excel(y.get_download_link(path='/bot-tables/test_homework.xlsx'),index_col=0,sheet_name=re.search(number_check_regular,message.text).group(1))
+        df_сheck_homework = pd.read_excel(y.get_download_link(path='/bot-tables/test_homework.xlsx'),index_col=0,sheet_name=re.search(number_check_regular,message.text).group(1),converters={'Ответ': str})
         if df_сheck_homework.loc[int(re.search(number_check_regular, message.text).group(2)), 'Ответ'] == str(re.search(number_check_regular,message.text).group(3)):
             bot.send_message(message.chat.id,'задание верное')
-            bot.send_message(message.chat.id,df_names_2.loc[df_names_2.loc[df_names_2['сhat_id'] == message.chat.id].index[0],'name'])
+            bot.send_message(message.chat.id,df_names_2.loc[df_names_2.loc[df_names_2['сhat_id'] == message.chat.id].index[0],'name']+',ты молодец!')
 
         else:
+
             bot.send_message(message.chat.id, 'задание неверное( Попробуй еще раз, или можешь получить подсказку')
 
 
