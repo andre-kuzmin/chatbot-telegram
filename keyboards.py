@@ -27,5 +27,8 @@ keyboard_home_menu.add('посмотреть свои оценки')
 keyboard_tech_help = telebot.types.InlineKeyboardMarkup().add(telebot.types.InlineKeyboardButton('ссылка на тех поддержку',url='https://t.me/kuzmin_andre'))
 
 keyboard_check_homework = telebot.types.InlineKeyboardMarkup()
+keyboard_think_or_help = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+keyboard_think_or_help.row('давай подсказку','подумаю ещё!')
+keyboard_teacher = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
 
 
