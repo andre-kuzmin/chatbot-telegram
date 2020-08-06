@@ -44,7 +44,7 @@ def start_message(message):
 def get_contact_from(message):
     global df_names_2
     if str(message.from_user.username) == 'NikVarf':
-        bot.send_message(message.chat.id,'Добрый день, мой Господин-преподаватель! Для вас есть специальные функции, предложенные в клавиатуре. Удачной работы, Господин!',reply_markup=)
+        bot.send_message(message.chat.id,'Добрый день, мой Господин-преподаватель! Для вас есть специальные функции, предложенные в клавиатуре. Удачной работы, Господин!')
     if message.text == 'Хорошо':
         bot.send_message(message.chat.id, 'давай тогда познакомимся?',reply_markup=kb.keyboard_get_name)
     elif message.text == 'давай, как ни как учиться вместе':
