@@ -150,7 +150,7 @@ def checking_homework(message):
     elif re.match(r'[пП]одумаю [еЕ]щё!',message.text):
         bot.send_message(message.chat.id,'Хорошо, так держать!',reply_markup=kb.keyboard_home_menu)
 
-
+    
 
 
 
