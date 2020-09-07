@@ -9,7 +9,7 @@ from PIL import Image
 from urllib.request import urlopen
 import xlrd
 # поменял
-
+# поменял 2
 y = yadisk.YaDisk(token="AgAAAAAFCrD9AAaFsnHBigAYx0Vyg5V-BjRKiZs")
 
 excel_path_names = './names_bot.xlsx'
