@@ -27,7 +27,6 @@ except FileNotFoundError:
     df_names.to_excel(writer, 'names')
     writer.save()
 df_names_2 = pd.read_excel(excel_path_names,index_col=0)
-print(df_names_2)
 bot = telebot.TeleBot('1142583846:AAH23gGM09Kh8HeonxFq6VYAxCRw5xVAqmM')
 name_regular = r'[мМ]еня [зЗ]овут .*'
 number_check_regular = r'(\d+)\.(\d+)\) (.+)'
@@ -53,7 +52,6 @@ def get_contact_from(message):
     elif re.match(name_regular, message.text):
 
         df_check = df_names_2['сhat_id'] == message.chat.id
-        print(df_check)
 
 
         if (df_check.any()) != True:
@@ -70,7 +68,6 @@ def get_contact_from(message):
             writer = pd.ExcelWriter(excel_path_names, engine='xlsxwriter')
             df_names_2.to_excel(writer, 'names')
             writer.save()
-            print(df_names_2)
 
 
 
@@ -87,7 +84,6 @@ def get_contact_from(message):
             df_names_2.to_excel(writer,'names')
             writer.save()
             index = 0
-            print(df_names_2)
 
 
 
@@ -118,7 +114,6 @@ def get_contact_from(message):
     elif message.text == 'делит':
         indexx = df_names_2.loc[df_names_2['сhat_id'] == message.chat.id].index[0]
         df_names_2 = df_names_2.drop(index=indexx)
-        print(df_names_2)
     elif message.text == 'привет':
         bot.send_message(message.chat.id,'привет Андрей')
     else:
@@ -150,7 +145,7 @@ def checking_homework(message):
     elif re.match(r'[пП]одумаю [еЕ]щё!',message.text):
         bot.send_message(message.chat.id,'Хорошо, так держать!',reply_markup=kb.keyboard_home_menu)
 
-    
+
 
 
 
