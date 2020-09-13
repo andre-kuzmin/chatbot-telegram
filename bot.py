@@ -12,6 +12,7 @@ import xlrd
 # поменял 2
 y = yadisk.YaDisk(token="AgAAAAAFCrD9AAaFsnHBigAYx0Vyg5V-BjRKiZs")
 
+
 excel_path_names = './names_bot.xlsx'
 excel_path_check_homework = 'https://yadi.sk/d/bG8jJj4-8aiR0Q'
 df_names = pd.DataFrame({
@@ -20,6 +21,7 @@ df_names = pd.DataFrame({
     'username': ['@kuzmin_andre']
                          })
 
+
 try:
     pd.read_excel(excel_path_names)
 except FileNotFoundError:
@@ -27,13 +29,22 @@ except FileNotFoundError:
     df_names.to_excel(writer, 'names')
     writer.save()
 df_names_2 = pd.read_excel(excel_path_names,index_col=0)
-bot = telebot.TeleBot('1142583846:AAH23gGM09Kh8HeonxFq6VYAxCRw5xVAqmM')
+bot = telebot.TeleBot('1287969362:AAFGI-capLkHpSN3QbrwSgZ-NcxzEzFlALc')
 name_regular = r'[мМ]еня [зЗ]овут .*'
 number_check_regular = r'(\d+)\.(\d+)\) (.+)'
 get_podskaska_regular = r'((\d+)\.(\d+))\) (.+)'
+get_reshenie_regular = r'((\d+)\.(\d+))\) [Рр]ешение'
+
 get_podskaska_regular_2 = r'((\d+)\.(\d+))\.(.+)'
 format_image_regular = r'\.(.+)'
 name_student = ''
+
+@bot.callback_query_handler(func=lambda call:True)
+def helping(call):
+
+    if  call.data == '1':
+        bot.answer_callback_query(callback_query_id=call.id, text='Напиши любой вопрос сюда:')
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
     bot.send_message(message.chat.id,msg.start_message_student, reply_markup=kb.keyboard_start)
@@ -115,7 +126,9 @@ def get_contact_from(message):
         indexx = df_names_2.loc[df_names_2['сhat_id'] == message.chat.id].index[0]
         df_names_2 = df_names_2.drop(index=indexx)
     elif message.text == 'привет':
-        bot.send_message(message.chat.id,'привет Андрей')
+
+        bot.send_message(message.chat.id,message.chat.id)
+        bot.send_message(message.chat.id,'привет Андрей',reply_markup=kb.keyboard_test)
     else:
         bot.register_next_step_handler(message, checking_homework(message))
         bot.clear_step_handler(message)
@@ -142,10 +155,24 @@ def checking_homework(message):
 
         bot.send_message(message.chat.id, 'напиши в формате : "дз.номер из дз) подсказка".\n'
                                           ' К примеру : дз номер 2, номер из домашнего задания 4, тогда 2.4) подсказка')
+    elif re.match(r'[Дд]авай [рР]ешение', message.text):
+
+        bot.send_message(message.chat.id, 'напиши в формате : "дз.номер из дз) решение".\n'
+                                          ' К примеру : дз номер 2, номер из домашнего задания 4, тогда 2.4) решение')
+
     elif re.match(r'[пП]одумаю [еЕ]щё!',message.text):
         bot.send_message(message.chat.id,'Хорошо, так держать!',reply_markup=kb.keyboard_home_menu)
-
-
+#     просмотр оценок
+    elif re.match(r'[Пп]осмотреть [Сс]вои [Оо]ценки',message.text):
+        bot.send_message(message.chat.id, 'Напиши номер дз в формате : 1 дз, и я пришлю тебе оценки')
+    elif re.match(get_reshenie_regular,message.text):
+        bot.send_photo(message.chat.id, photo=y.get_download_link(
+            path='/reshenie/' + str(re.search(get_reshenie_regular, message.text).group(1)) + '.jpg'),
+                       caption='держи решение к заданию №' + str(
+                           re.search(get_reshenie_regular, message.text).group(1)), reply_markup=kb.keyboard_after_reshenie)
+    elif re.match(r'[тТ]еперь [Рр]азобрался!',message.text):
+        bot.send_message(message.chat.id, 'Так держать !')
+    # elif re.match(r'[тТ]еперь [Рр]азобрался!',message.text)
 
 
 

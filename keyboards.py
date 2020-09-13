@@ -19,16 +19,21 @@ keyboard_change_name.row('все окей','поменять имя')
 
 test_but_1 = telebot.types.KeyboardButton('test1')
 test_but_2 = telebot.types.KeyboardButton('test2')
-keyboard_home_menu = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+
+keyboard_home_menu = telebot.types.ReplyKeyboardMarkup()
 keyboard_home_menu.add('проверить дз')
 keyboard_home_menu.add('задать вопрос по предмету')
-keyboard_home_menu.add('\help')
+keyboard_home_menu.add('техническая поддержка')
 keyboard_home_menu.add('посмотреть свои оценки')
 keyboard_tech_help = telebot.types.InlineKeyboardMarkup().add(telebot.types.InlineKeyboardButton('ссылка на тех поддержку',url='https://t.me/kuzmin_andre'))
 
-keyboard_check_homework = telebot.types.InlineKeyboardMarkup()
+keyboard_test = telebot.types.InlineKeyboardMarkup()
+keyboard_test.add()
 keyboard_think_or_help = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 keyboard_think_or_help.row('давай подсказку','подумаю ещё!')
 keyboard_teacher = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-
+keyboard_after_reshenie = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+keyboard_after_reshenie.add('теперь разобрался!')
+keyboard_after_reshenie.add('все равно не понял, остались вопросы')
 
