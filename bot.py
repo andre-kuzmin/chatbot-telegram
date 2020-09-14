@@ -86,7 +86,7 @@ def get_contact_from(message):
             writer = pd.ExcelWriter(excel_path_names, engine='xlsxwriter')
             df_names_2.to_excel(writer, 'names')
             writer.save()
-            y.upload(path_or_file='./names_bot.xlsx',dst_path='https://yadi.sk/i/Q6iZhx6YHmV_hQ')
+            y.upload(path_or_file='./names_bot.xlsx',dst_path='/bot-tables/names_bot.xlsx')
 
 
 
@@ -103,7 +103,7 @@ def get_contact_from(message):
             df_names_2.to_excel(writer,'names')
             writer.save()
             index = 0
-            y.upload(path_or_file='./names_bot.xlsx',dst_path='https://yadi.sk/i/Q6iZhx6YHmV_hQ',overwrite =True)
+            y.upload(path_or_file='./names_bot.xlsx',dst_path='/bot-tables/names_bot.xlsx',overwrite =True)
 
 
 
