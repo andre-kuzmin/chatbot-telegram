@@ -103,7 +103,7 @@ def get_contact_from(message):
             df_names_2.to_excel(writer,'names')
             writer.save()
             index = 0
-            y.upload(path_or_file='/app/names_bot.xlsx',dst_path='https://yadi.sk/d/R-xSIeT802af1Q',overwrite =True)
+            y.upload(path_or_file='/app/names_bot.xlsx',dst_path='https://yadi.sk/i/Q6iZhx6YHmV_hQ',overwrite =True)
 
 
 
