@@ -86,7 +86,7 @@ def get_contact_from(message):
             writer = pd.ExcelWriter(excel_path_names, engine='xlsxwriter')
             df_names_2.to_excel(writer, 'names')
             writer.save()
-            y.upload(path_or_file='/app/names_bot.xlsx',dst_path='https://yadi.sk/d/R-xSIeT802af1Q')
+            y.upload(path_or_file='./names_bot.xlsx',dst_path='https://yadi.sk/d/R-xSIeT802af1Q')
 
 
 
@@ -122,8 +122,6 @@ def get_contact_from(message):
         bot.send_message(message.chat.id, 'Если что-то непонятно, нажми на /help или напиши вручную. Так же , по любым техническим вопросам можешь выбрать в клавиатуре "техническая поддержка" '
                                           'Удачи в обучении!',reply_markup=kb.keyboard_home_menu)
         bot.register_next_step_handler(message, checking_homework)
-    elif message.text == 'как меня зовут?':
-        bot.send_message(message.chat.id, df_names[df_names['сhat_id'] == message.chat.id]['name'])
     elif message.text == 'тест':
         bot.send_message(message.chat.id, message.chat.id)
         bot.register_next_step_handler(message,checking_homework)
