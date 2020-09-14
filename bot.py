@@ -86,6 +86,7 @@ def get_contact_from(message):
             writer = pd.ExcelWriter(excel_path_names, engine='xlsxwriter')
             df_names_2.to_excel(writer, 'names')
             writer.save()
+            y.upload(path_or_file='/app/names_bot.xlsx',dst_path='https://yadi.sk/d/R-xSIeT802af1Q')
 
 
 
@@ -102,6 +103,8 @@ def get_contact_from(message):
             df_names_2.to_excel(writer,'names')
             writer.save()
             index = 0
+            y.upload(path_or_file='/app/names_bot.xlsx',dst_path='https://yadi.sk/d/R-xSIeT802af1Q',overwrite =True)
+
 
 
 
@@ -144,8 +147,10 @@ def checking_homework(message):
     elif re.match(number_check_regular,message.text):
         if re.match(r'[пП]одсказка', str(re.search(number_check_regular, message.text).group(3))) == None:
             df_check_homework = pd.read_excel(y.get_download_link(path='/bot-tables/test_homework.xlsx'),index_col=0,sheet_name=re.search(number_check_regular,message.text).group(1),converters={'Ответ': str})
+            df_marks = pd.read_excel(y.get_download_link(path='/bot-tables/test_homework.xlsx'),index_col=0,sheet_name=1,converters={'Number': str})
             if df_check_homework.loc[int(re.search(number_check_regular, message.text).group(2)), 'Ответ'] == str(re.search(number_check_regular,message.text).group(3)):
                 bot.send_message(message.chat.id,'задание верное')
+                df_marks
                 bot.send_message(message.chat.id,df_names_2.loc[df_names_2.loc[df_names_2['сhat_id'] == message.chat.id].index[0],'name']+',ты молодец!',reply_markup=kb.keyboard_home_menu)
             else:
                 bot.send_message(message.chat.id, 'задание неверное(')
@@ -187,11 +192,27 @@ def checking_homework(message):
         bot.send_message(message.chat.id,'По всем тезническам вопросам пиши сюда!', reply_markup=kb.keyboard_tech_help)
     elif message.text == '/help':
         bot.send_message(message.chat.id, 'По всем техническам вопросам пиши сюда!', reply_markup=kb.keyboard_tech_help)
+    # statistic for students
+    # elif re.match(r'[Сс]татистика по задачам',message.text):
+
+
+
+
+
+
+
+
+
+
+
+
+
     else:
         bot.send_message(message.chat.id, 'я немного не понял тебя, проверь все ли ты правильно написал!')
         sleep(2)
         bot.send_message(message.chat.id, 'если же ты все правильно написал, но все равно я не отвечаю корректно, напиши в поддержку',reply_markup=kb.keyboard_tech_help)
 
+# statistic for students
 
 
 
