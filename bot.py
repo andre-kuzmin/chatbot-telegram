@@ -39,16 +39,23 @@ get_podskaska_regular_2 = r'((\d+)\.(\d+))\.(.+)'
 format_image_regular = r'\.(.+)'
 name_student = ''
 
-@bot.callback_query_handler(func=lambda call:True)
-def helping(call):
-
-    if  call.data == '1':
-        bot.answer_callback_query(callback_query_id=call.id, text='Напиши любой вопрос сюда:')
-
+# @bot.callback_query_handler(func=lambda call:True)
+# def helping(call):
+#
+#     if  call.data == '1':
+#         bot.answer_callback_query(callback_query_id=call.id, text='Напиши любой вопрос сюда:')
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id,msg.start_message_student, reply_markup=kb.keyboard_start)
 
+    bot.send_message(message.chat.id,msg.start_message_student, reply_markup=kb.keyboard_start)
+    sleep(1)
+    bot.send_message(message.chat.id,'А и еще, я скидываю тебе видео и pdf файл с обьяснением, как работает бот\n'
+                                     'Я уверен, что ты бы мог сходу разобраться, но посмотреть лишним не будет!',reply_markup=kb.keyboard_start_understand)
+    sleep(2)
+    bot.send_message(message.chat.id,'Если пока все понятно , нажми на клавиатуре хорошо, если же уже появились вопросы, напиши или нажми на  /help', reply_markup=kb.keyboard_start)
+@bot.message_handler(commands=['help'])
+def help_tech(message):
+    bot.send_message(message.chat.id,'по всем техническим вопросам пиши сюда',reply_markup = kb.keyboard_tech_help)
 @bot.message_handler(content_types=['text'])
 
 def get_contact_from(message):
@@ -103,18 +110,13 @@ def get_contact_from(message):
     elif re.match(r'[пП]оменять [иИ]мя', message.text):
         bot.send_message(message.chat.id, 'Напиши свое имя в формате : меня зовут ...')
     elif re.match(r'[вВ]се [оО]кей', message.text):
-        bot.send_message(message.chat.id, str(msg.after_register_text))
-        # sleep(16)
-        bot.send_message(message.chat.id, '...'
-                                          '\n'
-                                          'Прости за большие сообщения, осталось немного!')
-        sleep(2)
-        bot.send_message(message.chat.id, str(msg.after_register_text_2), reply_markup=kb.keyboard_after_register)
+
+        bot.send_message(message.chat.id, 'Надеюсь ,что ты все понял, так что могу только пожелать удачи! готов начать обучение?', reply_markup=kb.keyboard_after_register)
     elif message.text == 'Так точно, капитан!':
-        bot.send_message(message.chat.id, 'Удачи в обучении,если что-то непонятно по техническим вопросам пишите "\help"',reply_markup=kb.keyboard_home_menu)
+        bot.send_message(message.chat.id, 'Удачи в обучении,если что-то непонятно по техническим вопросам напиши или нажми на "/help" ',reply_markup=kb.keyboard_home_menu)
         bot.register_next_step_handler(message, checking_homework)
     elif message.text == 'Что, собственно говоря, происходит?':
-        bot.send_message(message.chat.id, 'Если что-то непонятно, в клавиатуре выбери "\help" или напиши вручную'
+        bot.send_message(message.chat.id, 'Если что-то непонятно, нажми на /help или напиши вручную. Так же , по любым техническим вопросам можешь выбрать в клавиатуре "техническая поддержка" '
                                           'Удачи в обучении!',reply_markup=kb.keyboard_home_menu)
         bot.register_next_step_handler(message, checking_homework)
     elif message.text == 'как меня зовут?':
@@ -125,16 +127,17 @@ def get_contact_from(message):
     elif message.text == 'делит':
         indexx = df_names_2.loc[df_names_2['сhat_id'] == message.chat.id].index[0]
         df_names_2 = df_names_2.drop(index=indexx)
-    elif message.text == 'привет':
+    elif message.text == '/help':
+        bot.send_message(message.chat.id, 'По всем техническам вопросам пиши сюда!', reply_markup=kb.keyboard_tech_help)
 
-        bot.send_message(message.chat.id,message.chat.id)
-        bot.send_message(message.chat.id,'привет Андрей',reply_markup=kb.keyboard_test)
     else:
+
         bot.register_next_step_handler(message, checking_homework(message))
         bot.clear_step_handler(message)
 
 #Проверка дз
 def checking_homework(message):
+
     if re.match(r'[пП]роверить [дД][Зз]', message.text):
         bot.send_message(message.chat.id,
                          'Пиши номер задания в формате : дз.номер) а затем ответ Например, дз под номером 23, а номер задания в этом дз 2 ,ответ 4 , тогда "23.2) 4"')
@@ -163,6 +166,7 @@ def checking_homework(message):
     elif re.match(r'[пП]одумаю [еЕ]щё!',message.text):
         bot.send_message(message.chat.id,'Хорошо, так держать!',reply_markup=kb.keyboard_home_menu)
 #     просмотр оценок
+
     elif re.match(r'[Пп]осмотреть [Сс]вои [Оо]ценки',message.text):
         bot.send_message(message.chat.id, 'Напиши номер дз в формате : 1 дз, и я пришлю тебе оценки')
     elif re.match(get_reshenie_regular,message.text):
@@ -172,7 +176,23 @@ def checking_homework(message):
                            re.search(get_reshenie_regular, message.text).group(1)), reply_markup=kb.keyboard_after_reshenie)
     elif re.match(r'[тТ]еперь [Рр]азобрался!',message.text):
         bot.send_message(message.chat.id, 'Так держать !')
-    # elif re.match(r'[тТ]еперь [Рр]азобрался!',message.text)
+    # ask a quection
+
+    elif re.match(r'[зЗ]адать [вВ]опрос [Пп]о [пП]редмету',message.text):
+        bot.send_message(message.chat.id,'напиши ему!', reply_markup=kb.keyboard_subject_help)
+
+
+
+    elif re.match(r'[Тт]ехническая [Пп]оддержка',message.text):
+        bot.send_message(message.chat.id,'По всем тезническам вопросам пиши сюда!', reply_markup=kb.keyboard_tech_help)
+    elif message.text == '/help':
+        bot.send_message(message.chat.id, 'По всем техническам вопросам пиши сюда!', reply_markup=kb.keyboard_tech_help)
+    else:
+        bot.send_message(message.chat.id, 'я немного не понял тебя, проверь все ли ты правильно написал!')
+        sleep(2)
+        bot.send_message(message.chat.id, 'если же ты все правильно написал, но все равно я не отвечаю корректно, напиши в поддержку',reply_markup=kb.keyboard_tech_help)
+
+
 
 
 
