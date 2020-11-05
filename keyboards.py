@@ -21,38 +21,42 @@ keyboard_after_register = telebot.types.ReplyKeyboardMarkup(one_time_keyboard=Tr
 keyboard_after_register.add(button1)
 keyboard_after_register.add(button2)
 keyboard_get_name = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-keyboard_get_name.row('давай, как ни как учиться вместе')
+keyboard_get_name.row('Давай, как ни как учиться вместе')
 
 keyboard_change_name = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-keyboard_change_name.row('все окей','поменять имя')
+keyboard_change_name.row('Все окей','Поменять имя')
 
 
 
 
 # home menu
 keyboard_home_menu = telebot.types.ReplyKeyboardMarkup()
-keyboard_home_menu.add('проверить дз')
-keyboard_home_menu.add('задать вопрос по предмету')
-keyboard_home_menu.add('техническая поддержка')
-keyboard_home_menu.add('посмотреть свои оценки')
+keyboard_home_menu.add('Проверить дз')
+keyboard_home_menu.add('Задать вопрос по предмету')
+keyboard_home_menu.add('Техническая поддержка')
+keyboard_home_menu.add('Посмотреть свои оценки')
 
 
 # tech helping
 
 keyboard_tech_help = telebot.types.InlineKeyboardMarkup()
-keyboard_tech_help.add(telebot.types.InlineKeyboardButton('ссылка на тех поддержку',url='https://t.me/kuzmin_andre'))
+keyboard_tech_help.add(telebot.types.InlineKeyboardButton('Ссылка на тех поддержку',url='https://t.me/kuzmin_andre'))
 
 # ask quection about subject
 keyboard_subject_help = telebot.types.InlineKeyboardMarkup()
-keyboard_subject_help.add(telebot.types.InlineKeyboardButton('ссылка вопросы по предмету',url='https://t.me/NikVarf'))
+keyboard_subject_help.add(telebot.types.InlineKeyboardButton('Ссылка вопросы по предмету',url='https://t.me/NikVarf'))
 
 
 
 # getting answers and helping
 keyboard_think_or_help = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-keyboard_think_or_help.row('давай подсказку','подумаю ещё!')
+keyboard_think_or_help.row('Давай подсказку','Подумаю ещё!')
 keyboard_teacher = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
 keyboard_after_reshenie = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
 keyboard_after_reshenie.add('теперь разобрался!')
-keyboard_after_reshenie.add('все равно не понял, остались вопросы')
+keyboard_after_reshenie.add('Все равно не понял, остались вопросы')
 
+keyboard_after_helping = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+keyboard_after_helping.add('Попробую решить сам')
+# keyboard_after_helping.add('Все равно ничего не понимаю, давай решение')
+keyboard_after_helping.add('Давай решение')
