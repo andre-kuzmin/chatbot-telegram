@@ -9,11 +9,11 @@ from PIL import Image
 from urllib.request import urlopen
 import xlrd
 
-y = yadisk.YaDisk(token="AgAAAAAFCrD9AAaFsnHBigAYx0Vyg5V-BjRKiZs")
+y = yadisk.YaDisk(token="token_yadisk")
 
 excel_path_marks = './marks.xlsx'
 excel_path_names = './names_bot.xlsx'
-excel_path_check_homework = 'https://yadi.sk/d/bG8jJj4-8aiR0Q'
+excel_path_check_homework = 'url_yadisk'
 df_names = pd.DataFrame({
     'сhat_id': ['2020'],
     'name': ['test'],
@@ -29,7 +29,7 @@ except FileNotFoundError:
     df_names.to_excel(writer, 'names')
     writer.save()
 df_names_2 = pd.read_excel(excel_path_names,index_col=0)
-bot = telebot.TeleBot('1287969362:AAFGI-capLkHpSN3QbrwSgZ-NcxzEzFlALc')
+bot = telebot.TeleBot('token_telebot')
 name_regular = r'\s*[мМ]еня\s+[зЗ]овут\s+.*\s*'
 number_check_regular = r'\s*((\d+)\.(\d+))\)\s*(.+)\s*'
 
@@ -62,8 +62,7 @@ def help_tech(message):
 def get_contact_from(message):
 
     global df_names_2
-    if str(message.from_user.username) == 'NikVarf':
-        bot.send_message(message.chat.id,'Добрый день, мой Господин-преподаватель! Для вас есть специальные функции, предложенные в клавиатуре. Удачной работы, Господин!')
+    
     if message.text == 'Хорошо':
         bot.send_message(message.chat.id, 'Давай тогда познакомимся?',reply_markup=kb.keyboard_get_name)
     elif message.text == 'давай, как ни как учиться вместе':
